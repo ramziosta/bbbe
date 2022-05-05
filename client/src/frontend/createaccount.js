@@ -15,7 +15,10 @@ import {
   PWD_REGEX,
   EMAIL_REGEX,
 } from "../helpers/FormFieldValidation";
-import { createUserWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  onAuthStateChanged,
+} from "firebase/auth";
 
 import { auth } from "../firebase";
 
@@ -168,45 +171,36 @@ function CreateAccount() {
       transactionDate: timeStamp,
       transactionType: "New account credit",
       activity: "New account registration",
-      accountNumber:  accountNumber ,
-      accountType:accountType ,
+      accountNumber: accountNumber,
+      accountType: accountType,
     });
 
-//################# Firebase################
-try {
-  const user = await createUserWithEmailAndPassword(
-    auth,
-    email,
-    pwd
-  );
-  console.log(user);
-} catch (error) {
-  console.log(error.message);
-}
+    //################# Firebase################
+    try {
+      const user = await createUserWithEmailAndPassword(auth, email, pwd);
+      console.log(user);
+    } catch (error) {
+      console.log(error.message);
+    }
 
+    //############# serverconnection ###########################
+    const response = await fetch("http://localhost:4000/register", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        user,
+        email,
+        pwd,
+        matchPwd,
+        accountType,
+      }),
+    });
+    const data = await response.json();
+    console.log(data);
 
-//############# serverconnection ###########################
-const response = await fetch("http://localhost:4000/register", {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({
-    user,
-    email,
-    pwd,
-    matchPwd,
-    accountType,
-  }),
-});
-const data = await response.json();
-console.log(data);
+    clearForm();
 
-
-
-
-
-clearForm();
-
-//##########################################
+    //##########################################
     console.log("🏦 " + accountNumber);
 
     setShow(false);
@@ -219,7 +213,6 @@ clearForm();
     let userSelection = event.target.value;
     console.log(userSelection);
     setAccountType(userSelection);
-
   };
 
   function clearForm() {
@@ -228,8 +221,7 @@ clearForm();
     setPwd("");
     setMatchPwd("");
   }
- 
- 
+
   return (
     <>
       {show ? (
@@ -258,10 +250,7 @@ clearForm();
                         <h4 className="formId">
                           Register A New BadBank Account
                         </h4>
-                        <form
-                          className="form"
-                          onSubmit={AccountRegistration}
-                        >
+                        <form className="form" onSubmit={AccountRegistration}>
                           <label htmlFor="username">
                             Username:
                             <span className={validName ? "valid" : "hide"}>
@@ -431,11 +420,6 @@ clearForm();
                             Must match the first password input field.
                           </p>
 
-
-
-
-
-
                           {/* //<############### account type ############### */}
                           <label htmlFor="confirm_pwd">Account Type:</label>
                           <select
@@ -453,11 +437,6 @@ clearForm();
                               Savings
                             </option>
                           </select>
-
-
-
-
-
 
                           <button
                             className="signup"

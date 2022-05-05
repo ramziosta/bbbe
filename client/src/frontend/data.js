@@ -25,8 +25,10 @@ export default function Data() {
     console.log(accounts)
 return (
     <>
-        {accounts.map((account,index) =>
+        {
+          accounts.map((account,index) =>
     <table key={index}  className="table table-hover table-fixed">
+    <tbody>
     <tr>
       <th>User Name</th>
       <td key={accounts.user}>{account.user}</td>
@@ -50,6 +52,7 @@ return (
       <th>Account Type</th>
       <td key={accounts._id}>{account.accountType}</td>
     </tr>
+    </tbody>
   </table>)}
 
     </>
