@@ -1,0 +1,15 @@
+[
+    {
+        "id": 1,
+        "name": "mojo jojo",
+        "email": "mojo@jojo.com",
+        "password": "Diabolical@31"
+    },
+    {
+       
+        "id": 2,
+        "name": "bubbles",
+        "email": "bubbles@powerpuff.com",
+        "password": "bunnies@31"
+    }
+]

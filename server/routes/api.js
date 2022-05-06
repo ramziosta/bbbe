@@ -18,10 +18,6 @@ router.get('^/$|/index(.html)?', function (req, res) {
 });
 
 
-// path to connect the apifolder alll the way to the public folder in client
-router.get('/test', (req,res)=>{
-  res.sendFile(path.join(__dirname, '..', '..', 'client', 'public','index.html'))})
-
 
 router.post("/register", async (req, res) => {
   console.log(req.body);

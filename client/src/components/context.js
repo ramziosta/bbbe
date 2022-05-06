@@ -1,6 +1,7 @@
-import React from "react";
+import React, {createContext} from "react";
 
-export const UserContext = React.createContext(null);
+export const UserContext = createContext(null);
+export const dataContext = createContext({})
 
 export default function Card(props) {
   function classes() {

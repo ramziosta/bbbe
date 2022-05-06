@@ -12,3 +12,6 @@ body {
     display: grid;
     place-content: center;
 }
+h1{
+    text-align: center;
+}
