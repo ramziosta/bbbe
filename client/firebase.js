@@ -2,19 +2,20 @@ import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 
 const firebaseConfig = {
-    apiKey: "AIzaSyDdYd5p3LeXynxSdSvOaZtLsqeHNMicUNU",
-    authDomain: "badbank-c1e69.firebaseapp.com",
-    projectId: "badbank-c1e69",
-    storageBucket: "badbank-c1e69.appspot.com",
-    messagingSenderId: "336683260282",
-    appId: "1:336683260282:web:964943895ef497a2c6dec3",
-    measurementId: "G-XP1T9063W1"
+    apiKey:process.env.REACT_APP_FIREBASE_APP_ID, 
+    authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN, 
+    projectId:process.env.REACT_APP_FIREBASE_PROJECT_ID,
+    storageBucket:process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId:process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID, 
+    appId:process.env.REACT_APP_FIREBASE_APP_ID, 
+    measurementId:process.env.REACT_APP_FIREBASE_MEASUREMENT_ID, 
   };
 
 const app = initializeApp(firebaseConfig);
-
-export const auth = getAuth(app);
+// Initialize Firebase Authentication and get a reference to the service
+const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
+
 
 export const signInWithGoogle = () => {
     signInWithPopup(auth, provider)

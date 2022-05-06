@@ -1,3 +1,5 @@
 "scripts":{"start": "node index.js", "end": ""client":"cd client && npm start", "dev": "concurrently -n 'server, client' -c yellow, cyan' \"nodemon index.js\" \"npm run client\"  "}
 
 npm run dev
+
+this settings for this app folder/file structured

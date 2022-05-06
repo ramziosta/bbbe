@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect, useRef } from "react";
 import Card from "../components/context";
 import { UserContext } from "../components/context";
 import LoginLogoutButton from "../components/LoginLogoutButton";
@@ -29,6 +29,13 @@ function Deposit() {
     }
     return true;
   }
+
+// const prevBalance = useRef('');
+
+// useEffect(() => {
+//   prevBalance.current = balance
+// }, [balance])
+
 
   async function handleDeposit(e) {
     console.log("💵 " + amount);

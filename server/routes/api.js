@@ -2,9 +2,11 @@ const express = require("express");
 const router = express.Router();
 const User = require("../models/user.model");
 const Transaction = require("../models/transaction.model");
+const path = require("path");
 
 
-router.get("/", function (req, res) {
+// gets all the data on localhost:4000
+router.get('^/$|/index(.html)?', function (req, res) {
   User.find({})
     .then((data) => {
       console.log("data", data);
@@ -14,6 +16,12 @@ router.get("/", function (req, res) {
       console.log(err);
     });
 });
+
+
+// path to connect the apifolder alll the way to the public folder in client
+router.get('/test', (req,res)=>{
+  res.sendFile(path.join(__dirname, '..', '..', 'client', 'public','index.html'))})
+
 
 router.post("/register", async (req, res) => {
   console.log(req.body);

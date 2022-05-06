@@ -1,9 +1,14 @@
 {
   "folders": [
-	{
-		"path": "."
-	}
-],
+    {
+      "path": "."
+    },
+    {
+      "path": "../mongo_async_crud-main"
+    },
+    {
+      "path": "../React-Firebase-Auth-master"
+    }
+  ],
   "settings": {}
 }
-			

@@ -7,11 +7,6 @@ import SiteSideBar from "../components/siteSideBar";
 import "../styles/SignIn.css";
 import Header from "../components/Header";
 import Table2 from "../components/Table2";
-import {signInWithGoogle} from "../firebase"
-import {onAuthStateChanged, signInWithEmailAndPassword,
-} from "firebase/auth";
-
-import { auth } from "../firebase";
 
 export const LoginUser = ({ user }) => {
   return (
@@ -32,14 +27,27 @@ function Login() {
   const timeStamp = new Date().toLocaleDateString();
   const ctx = useContext(UserContext);
 
- async function handleLogin(e) {
-
-    const promise = auth.signInWithEmailAndPassword(
-      email.value,
-      pwd.value
+  function handleLogin() {
+    const userLogin = ctx.users.filter(
+      (item) => item.email == email && item.pwd == pwd
     );
-    promise.catch((e) => console.log(e.message));
 
+    if (userLogin.length == 0) {
+      alert(
+        "Account email or password is incorrect, please try again. If you dont have an account, please register."
+      );
+      clearForm();
+    }
+    if (userLogin.length != 0) {
+      setShow(false);
+      const elementIndex = ctx.users.findIndex(
+        (item) => item.email == email && item.pwd == pwd
+      );
+      //   const element = ctx.users[elementIndex]
+      ctx.users.splice(elementIndex, 1);
+      ctx.users.splice(0, 0, userLogin[0]);
+      setUser(userLogin[0]);
+    }
     ctx.log = true;
 
     setStatus("LogedIn");
@@ -49,9 +57,6 @@ function Login() {
     });
   }
 
-
-    
-  
   function clearForm() {
     setEmail("");
     setPwd("");
@@ -61,60 +66,9 @@ function Login() {
 
   return (
     <>
-      {user?.email ? (
+      {show ? (
         <>
-        <>
-<SiteSideBar />
-<Card
-  className="dashboard-card"
-  style={{ maxWidth: "60%", marginTop: "4rem", marginLeft: "10rem" }}
-  bgcolor="dark"
-  // status={status}
-  body={
-    <>
-      <div className="">
-        <LoginUser user={user} />
-        <br />
-        <Row className="text-center">
-          <Col>
-            <Link
-              to="/deposit"
-              className="btn btn-primary text-white Link"
-            >
-              Make a deposit
-            </Link>
-          </Col>
-          <Col>
-            <Link
-              to="/withdraw"
-              className="btn btn-primary text-white Link"
-            >
-              Make a withdraw
-            </Link>
-          </Col>
-
-          <div
-            style={{
-              backgroundColor: "lightgrey",
-              marginTop: "2rem",
-              padding: "2rem",
-            }}
-          >
-            <table className="table table-striped w-auto">
-              <Header />
-              <Table2 />
-            </table>
-          </div>
-        </Row>
-      </div>
-    </>
-  }
-/>
-{/* !------------- */}
-</>
-        </>
-      ) : (
-        <div style={{ background: "grey", height: "62vh" }}>
+          <div style={{ background: "grey", height: "62vh" }}>
             <Card
               style={{
                 maxWidth: "25rem",
@@ -179,15 +133,61 @@ function Login() {
                   >
                     Login
                   </button>
-
-                  <button class="login-with-google-btn" onClick={signInWithGoogle}>
-        Sign in with Google
-      </button>
-
                 </>
               }
             />
           </div>
+        </>
+      ) : (
+        <>
+          <SiteSideBar />
+          <Card
+            className="dashboard-card"
+            style={{ maxWidth: "60%", marginTop: "4rem", marginLeft: "10rem" }}
+            bgcolor="dark"
+            // status={status}
+            body={
+              <>
+                <div className="">
+                  <LoginUser user={user} />
+                  <br />
+                  <Row className="text-center">
+                    <Col>
+                      <Link
+                        to="/deposit"
+                        className="btn btn-primary text-white Link"
+                      >
+                        Make a deposit
+                      </Link>
+                    </Col>
+                    <Col>
+                      <Link
+                        to="/withdraw"
+                        className="btn btn-primary text-white Link"
+                      >
+                        Make a withdraw
+                      </Link>
+                    </Col>
+
+                    <div
+                      style={{
+                        backgroundColor: "lightgrey",
+                        marginTop: "2rem",
+                        padding: "2rem",
+                      }}
+                    >
+                      <table className="table table-striped w-auto">
+                        <Header />
+                        <Table2 />
+                      </table>
+                    </div>
+                  </Row>
+                </div>
+              </>
+            }
+          />
+          {/* !------------- */}
+        </>
       )}
     </>
   );
