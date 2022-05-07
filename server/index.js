@@ -15,7 +15,6 @@ const errorHandler = require('./middleware/errorHandler');
 // const verifyJWT = require('./middleware/verifyJWT');
 // const cookieParser = require('cookie-parser');
 // const credentials = require('./middleware/credentials');
-// const mongoose = require('mongoose');
 //const connectDB = require('./config/dbConn');
 
 app.use(cors());
