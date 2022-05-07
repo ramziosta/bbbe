@@ -24,7 +24,7 @@ const handleNewClient = async (req, res) => {
     const newClient = { user: user, email: email, password: hashedPwd , accountType: accountType};
     clientDB.setClients([...clientDB.clients, newClient]);
     await fsPromises.writeFile(
-      path.join(__dirname, "..", "data", "client.json"),
+      path.join(__dirname, "..", "data", "clients.json"),
       JSON.stringify(clientDB.clients)
     );
     console.log(clientDB.clients);

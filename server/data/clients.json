@@ -1,15 +1,24 @@
 [
-    {
-        "id": 1,
-        "name": "mojo jojo",
-        "email": "mojo@jojo.com",
-        "password": "Diabolical@31"
-    },
-    {
-       
-        "id": 2,
-        "name": "bubbles",
-        "email": "bubbles@powerpuff.com",
-        "password": "bunnies@31"
-    }
+  {
+    "id": 1,
+    "name": "mojo jojo",
+    "email": "mojo@jojo.com",
+    "password": "Diabolical@31"
+  },
+  {
+    "id": 2,
+    "name": "bubbles",
+    "email": "bubbles@powerpuff.com",
+    "password": "bunnies@31"
+  },
+  {
+    "email": "mj.com",
+    "password": "$2b$10$0oZTNEhaUB0OBXNkYg4u9uSfUvNreh7tHF3RETAvqafwH7Fnzidk2"
+  },
+  {
+    "user": "billybob",
+    "email": "billyboob.com",
+    "password": "$2b$10$BH8uDfBe0N4vOqaD.6y.7enXxnK/iTkYEt0ntDfFket91nXdlkxoe",
+    "accountType": "savings"
+  }
 ]
