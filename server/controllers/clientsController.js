@@ -10,44 +10,48 @@ const getAllClients = (req, res) => {
 
 const createNewClient = (req, res) => {
     const newClient = {
-        email: data.clients?.length ? data.clients[data.clients.length - 1].email + 1 : 1,
-        firstname: req.body.firstname,
-        lastname: req.body.lastname
+        id: data.clients?.length ? data.clients[data.clients.length - 1].id + 1 : 1,
+        name: req.body.name,
+        password: req.body.password,
+        email: req.body.email,
+        accountType: req.body.accountType
     }
 
-    if (!newClient.firstname || !newClient.lastname) {
+    if (!newClient.name || !newClient.email) {
         return res.status(400).json({ 'message': 'First and last names are required.' });
     }
 
-    data.setClients([...data.clients, newclient]);
+    data.setClients([...data.clients, newClient]);
     res.status(201).json(data.clients);
 }
 
+
+//! needs editing email works but need to refactor from/to id
 const updateClient = (req, res) => {
-    const client = data.clients.find(Clnt => Clnt.email === parseInt(req.body.email));
+    const client = data.clients.find(Clnt => Clnt.email === req.body.email);
     if (!client) {
         return res.status(400).json({ "message": `Client email ${req.body.email} not found` });
     }
-    if (req.body.firstname) client.firstname = req.body.firstname;
-    if (req.body.lastname) client.lastname = req.body.lastname;
-    const filteredArray = data.clients.filter(Clnt => Clnt.email !== parseInt(req.body.email));
+    if (req.body.name) client.name = req.body.name;
+    if (req.body.email) client.email = req.body.email;
+    const filteredArray = data.clients.filter(Clnt => Clnt.email !== (req.body.email));
     const unsortedArray = [...filteredArray, client];
     data.setClients(unsortedArray.sort((a, b) => a.email > b.email ? 1 : a.email < b.email ? -1 : 0));
     res.json(data.clients);
 }
 
 const deleteClient = (req, res) => {
-    const client = data.clients.find(Clnt => Clnt.email === parseInt(req.body.email));
+    const client = data.clients.find(Clnt => Clnt.email === req.body.email);
     if (!client) {
         return res.status(400).json({ "message": `Client email ${req.body.email} not found` });
     }
-    const filteredArray = data.clients.filter(Clnt => Clnt.email !== parseInt(req.body.email));
+    const filteredArray = data.clients.filter(Clnt => Clnt.email !== req.body.email);
     data.setClients([...filteredArray]);
     res.json(data.clients);
 }
 
 const getClient = (req, res) => {
-    const client = data.clients.find(Clnt => Clnt.email === parseInt(req.params.email));
+    const client = data.clients.find(Clnt => Clnt.email === req.params.email);
     if (!client) {
         return res.status(400).json({ "message": `Client email ${req.params.email} not found` });
     }

@@ -9,9 +9,9 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const path = require("path");
 // require('dotenv').config();
-const corsOptions = require('./config/corsOptions');
-const { logger } = require('./middleware/logEvents');
-const errorHandler = require('./middleware/errorHandler');
+const corsOptions = require("./config/corsOptions");
+const { logger } = require("./middleware/logEvents");
+const errorHandler = require("./middleware/errorHandler");
 // const verifyJWT = require('./middleware/verifyJWT');
 // const cookieParser = require('cookie-parser');
 // const credentials = require('./middleware/credentials');
@@ -43,17 +43,18 @@ mongoose.connection.on("connected", () => {
 
 // folders used serve static files
 app.use(express.static(path.join(__dirname, "../Badbank/build")));
-app.use('/', express.static(path.join(__dirname, '/public')));
+app.use("/", express.static(path.join(__dirname, "/public")));
 //this routes the css from the sub directory
-app.use('/subdir', express.static(path.join(__dirname, '/public')));
-app.use('/subdir', require('./routes/subdir'));
-app.use('/clients', require('./routes/api/clients'));
-app.use('/', require('./routes/root'));
+app.use("/subdir", express.static(path.join(__dirname, "/public")));
+app.use("/subdir", require("./routes/subdir"));
+app.use("/clients", require("./routes/api/clients"));
+app.use("/register", require("./routes/register"));
+app.use("/", require("./routes/root"));
 app.use("/", routes);
 
-//routes 
+//routes
 
-// catch all 
+// catch all
 app.all("*", (req, res) => {
   res.status(404);
   if (req.accepts("html")) {
