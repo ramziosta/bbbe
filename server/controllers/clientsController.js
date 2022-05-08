@@ -35,8 +35,8 @@ const updateClient = (req, res) => {
     if (req.body.name) client.name = req.body.name;
     if (req.body.email) client.email = req.body.email;
     const filteredArray = data.clients.filter(Clnt => Clnt.email !== (req.body.email));
-    const unsortedArray = [...filteredArray, client];
-    data.setClients(unsortedArray.sort((a, b) => a.email > b.email ? 1 : a.email < b.email ? -1 : 0));
+    // const unsortedArray = [...filteredArray, client];
+    // data.setClients(unsortedArray.sort((a, b) => a.email > b.email ? 1 : a.email < b.email ? -1 : 0));
     res.json(data.clients);
 }
 

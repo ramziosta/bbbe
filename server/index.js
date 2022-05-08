@@ -8,7 +8,7 @@ const routes = require("../server/routes/api");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const path = require("path");
-// require('dotenv').config();
+require('dotenv').config();
 const corsOptions = require('./config/corsOptions');
 const { logger } = require('./middleware/logEvents');
 const errorHandler = require('./middleware/errorHandler');

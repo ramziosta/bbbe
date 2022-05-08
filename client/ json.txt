@@ -3,3 +3,7 @@
 npm run dev
 
 this settings for this app folder/file structured
+
+
+node
+require( 'crypto' ).randomBytes(64).toString('hex')
