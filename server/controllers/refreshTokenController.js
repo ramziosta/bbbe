@@ -1,33 +1,34 @@
-const User = require('../models/User');
-const jwt = require('jsonwebtoken');
+const clientDB = {
+  clients: require("../data/clients.json"),
+  setClients: function (data) {
+    this.clients = data;
+  },
+};
 
-const handleRefreshToken = async (req, res) => {
-    const cookies = req.cookies;
-    if (!cookies?.jwt) return res.sendStatus(401);
-    const refreshToken = cookies.jwt;
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
 
-    const foundUser = await User.findOne({ refreshToken }).exec();
-    if (!foundUser) return res.sendStatus(403); //Forbidden 
-    // evaluate jwt 
-    jwt.verify(
-        refreshToken,
-        process.env.REFRESH_TOKEN_SECRET,
-        (err, decoded) => {
-            if (err || foundUser.username !== decoded.username) return res.sendStatus(403);
-            const roles = Object.values(foundUser.roles);
-            const accessToken = jwt.sign(
-                {
-                    "UserInfo": {
-                        "username": decoded.username,
-                        "roles": roles
-                    }
-                },
-                process.env.ACCESS_TOKEN_SECRET,
-                { expiresIn: '10s' }
-            );
-            res.json({ roles, accessToken })
-        }
+const handleRefreshToken = (req, res) => {
+  const cookies = req.cookies;
+  if (!cookies?.jwt) return res.status(400);
+  console.log("🍪 "+ cookies.jwt);
+  const refreshToken = cookies.jwt.refreshToken;
+
+  const foundClient = clientDB.clients.find(
+    (person) => person.refreshToken === refreshToken
+  );
+  if (!foundClient) return res.sendStatus(403); //Forbidden
+console.log(foundClient);
+  //evaluate jwt token
+  jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, decoded) => {
+    if (err || foundClient.email !== decoded.email) return res.sendStatus(403);
+    const accessToken = jwt.sign(
+      { "email": decoded.email },
+      process.env.ACCESS_TOKEN_SECRET,
+      { expiresIn: "300s" }
     );
-}
+    res.json({accessToken});
+  });
+};
 
-module.exports = { handleRefreshToken }
+module.exports = { handleRefreshToken };

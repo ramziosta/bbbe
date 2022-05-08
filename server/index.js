@@ -12,8 +12,8 @@ require('dotenv').config();
 const corsOptions = require('./config/corsOptions');
 const { logger } = require('./middleware/logEvents');
 const errorHandler = require('./middleware/errorHandler');
-// const verifyJWT = require('./middleware/verifyJWT');
-// const cookieParser = require('cookie-parser');
+const verifyJWT = require('./middleware/verifyJWT');
+const cookieParser = require('cookie-parser');
 // const credentials = require('./middleware/credentials');
 //const connectDB = require('./config/dbConn');
 
@@ -23,6 +23,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+app.use(cookieParser());
 // custom middleware logger
 app.use(logger);
 
@@ -39,13 +40,15 @@ mongoose.connection.on("connected", () => {
 // folders used serve static files
 app.use(express.static(path.join(__dirname, "../Badbank/build")));
 app.use('/', express.static(path.join(__dirname, '/public')));
-//this routes the css from the sub directory
-app.use('/subdir', express.static(path.join(__dirname, '/public')));
-app.use('/subdir', require('./routes/subdir'));
-app.use('/clients', require('./routes/api/clients'));
+
+app.use('/', require('./routes/root'));
 app.use('/register', require('./routes/register'));
 app.use('/auth', require('./routes/auth'));
-app.use('/', require('./routes/root'));
+app.use('/refresh', require('./routes/refresh'));
+
+//any rout to verify must be after this line
+app.use(verifyJWT);
+app.use('/clients', require('./routes/api/clients'))
 app.use("/", routes);
 
 //routes 
